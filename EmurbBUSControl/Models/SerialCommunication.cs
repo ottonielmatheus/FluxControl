@@ -15,7 +15,8 @@ namespace ArduinoCommunication.Models
             DATA = 100,
             OK = 200,
             RECEIVED = 201,
-            NOTRECOGNIZED = 404
+            NOTRECOGNIZED = 404,
+            NOTHINGPROCESSED = 405
         };
         
         public static SerialPort SerialPort = new SerialPort();
@@ -54,6 +55,10 @@ namespace ArduinoCommunication.Models
 
                     case CommunicationStatusType.NOTRECOGNIZED:
                         SerialPort.Write("<404:NOTRECOGNIZED/>");
+                        break;
+
+                    case CommunicationStatusType.NOTHINGPROCESSED:
+                        SerialPort.Write("<405:NOTHINGPROCESSED/>");
                         break;
 
                     default:
