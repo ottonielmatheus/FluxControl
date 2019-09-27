@@ -1,35 +1,44 @@
-#define GREENLED 8
-#define REDLED 9
+#define GREENLED 9
+#define REDLED 8
 
 struct Status
 {
   unsigned short fromStatusText(String statusText)
   {
-    short $separator = statusText.indexOf(":");
-    String _statusText = statusText.substring(1, $separator - 1);
+    short separator = statusText.indexOf(":");
+    String _statusText = statusText.substring(1, separator);
     
-    if (_status.Text.equals("100"))
+    if (_statusText.equals("100"))
       return 100;
 
-    else if (_status.Text.equals("201"))
+    else if (_statusText.equals("200"))
+      return 200;
+
+    else if (_statusText.equals("201"))
       return 201;
 
-    else if (_status.Text.equals("404"))
+    else if (_statusText.equals("404"))
       return 404;
 
-    else if (_status.Text.equals("405"))
+    else if (_statusText.equals("405"))
       return 405;
 
-    else if (_status.Text.equals("500"))
+    else if (_statusText.equals("500"))
       return 500;
+
+    return 0;
   }
   
-  String fromStatusCode(unsigned short statusCode, String data = NULL)
+  String fromStatusCode(unsigned short statusCode, String data = "")
   {
     switch(statusCode)
     {
       case 100:
         return "<100:DATA>" + data + "<100:DATA/>";
+
+      case 200:
+        return "<200:OK/>";
+      
       case 201:
         return "<201:RECEIVED/>";
 
@@ -44,10 +53,10 @@ struct Status
     }
   }
 
-  void SendStatusCode(unsigned short statusCode, String data = NULL)
+  void SendStatusCode(unsigned short statusCode, String data = "")
   {
-    String _statusText = fromStatusCode(statusCode, data);
-    Serial.write(_statusText);
+    Serial.read();
+    Serial.print(fromStatusCode(statusCode, data));
   }
 };
 
@@ -58,13 +67,16 @@ void setup() {
   pinMode(GREENLED, OUTPUT);
   pinMode(REDLED, OUTPUT);
   
-  Serial.Begin(9600);
+  Serial.begin(9600);
 
   // Acende os dois leds para mostrar a iniciação do sistema
   digitalWrite(GREENLED, HIGH);
   digitalWrite(REDLED, HIGH);
   
   delay(3 * 1000);
+
+  digitalWrite(GREENLED, LOW);
+  digitalWrite(REDLED, LOW);
    
 }
 

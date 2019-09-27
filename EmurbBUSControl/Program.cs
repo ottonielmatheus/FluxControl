@@ -16,7 +16,14 @@ namespace EmurbBUSControl
     {
         public static void Main(string[] args)
         {
-            SerialCommunication.Start();
+            try
+            {
+                SerialCommunication.Start();
+            }
+            catch(Exception ex)
+            {
+
+            }
 
             CreateWebHostBuilder(args).Build().Run();
         }

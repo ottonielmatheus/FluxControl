@@ -15,8 +15,10 @@ namespace ArduinoCommunication.Models
             DATA = 100,
             OK = 200,
             RECEIVED = 201,
-            NOTRECOGNIZED = 404,
-            NOTHINGPROCESSED = 405
+            NOTHINGPROCESSED = 404,
+            NOTRECOGNIZED = 405,
+            SERVERERROR = 500
+            
         };
         
         public static SerialPort SerialPort = new SerialPort();
@@ -53,12 +55,12 @@ namespace ArduinoCommunication.Models
                         SerialPort.Write("<200:OK/>");
                         break;
 
-                    case CommunicationStatusType.NOTRECOGNIZED:
-                        SerialPort.Write("<404:NOTRECOGNIZED/>");
+                    case CommunicationStatusType.NOTHINGPROCESSED:
+                        SerialPort.Write("<404:NOTHINGPROCESSED/>");
                         break;
 
-                    case CommunicationStatusType.NOTHINGPROCESSED:
-                        SerialPort.Write("<405:NOTHINGPROCESSED/>");
+                    case CommunicationStatusType.NOTRECOGNIZED:
+                        SerialPort.Write("<405:NOTRECOGNIZED/>");
                         break;
 
                     default:
@@ -88,7 +90,7 @@ namespace ArduinoCommunication.Models
 
             CommunicationStatus communicationStatus = ConvertToCommuncationStatus(bufferContent);
 
-            if (communicationStatus != null && communicationStatus.StatusCode == CommunicationStatusType.DATA)
+            if (communicationStatus != null)
             {
                 // Registra a entrada no sistema
                 SystemNotifier.SendNotificationAsync(communicationStatus);
