@@ -11,7 +11,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
 ## Telas do Sistema:
 
-## Operador:
+### Operador:
 
 #### Início
 <img src="/Design/Início - Operador.png" alt="Tela de Início - Operador"/>
@@ -22,4 +22,4 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 #### Modal ocorrência
 <img src="/Design/Modal Ocorrência - Operador.png" alt="Detalhes da Tela - Operador"/>
 
-## Gerente:
+### Gerente:
