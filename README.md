@@ -32,7 +32,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 <img src="/Design/Relatórios - Gerente.png" alt="Relatórios - Gerente"/>
 
 #### Pesquisa avançada (Relatórios)
-<img src="/Design/Pesquisa Avançada Relatórios - Gerente" alt="Relatórios - Gerente"/>
+<img src="/Design/Pesquisa Avançada Relatórios - Gerente.png" alt="Pesquisa avançada (Relatórios) - Gerente"/>
 
 #### Detalhes da pesquisa (Relatórios)
 <img src="/Design/Detalhes da Pesquisa - Gerente.png" alt="Detalhes da pesquisa (Relatórios) - Gerente"/>
