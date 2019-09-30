@@ -3,7 +3,7 @@ Sistema para controle do fluxo de entrada e saída de veículos por automatizaç
 
 ## Ferramentas:
 
-* Microcontrolador para capturar a foto da placa 
+* Microcontrolador **Arduino** (_e componentes_) para capturar a foto da placa 
 * Serviço API (_Inteligência Artificial_) para o reconhecimento da placa na imagem
 * Sistema WEB em **ASP.NET Core** para o controle e análise dos dados
 * Banco de dados **SQLServer** para armazenamento dos dados
