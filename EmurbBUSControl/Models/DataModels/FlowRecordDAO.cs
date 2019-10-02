@@ -9,7 +9,7 @@ namespace EmurbBUSControl.Models.DataModels
 {
     public class FlowRecordDAO : Database, ICrudDAO<FlowRecord>
     {
-        public bool Add(string identifier, FlowRecord.FlowType flowType)
+        public bool Add(string identifier)
         {
             Bus busRegistered = null;
 
@@ -21,7 +21,7 @@ namespace EmurbBUSControl.Models.DataModels
                 (
                     new FlowRecord()
                     {
-                        Flow = flowType
+                        
                     }
                 );
             

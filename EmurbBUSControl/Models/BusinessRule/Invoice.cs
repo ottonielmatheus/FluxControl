@@ -10,6 +10,5 @@ namespace EmurbBUSControl.Models.BusinessRule
     {
         public Company Debtor { get; set; }
         public decimal TotalCost { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
     }
 }

@@ -10,16 +10,10 @@ namespace EmurbBUSControl.Models.BusinessRule
 {
     public class FlowRecord
     {
-        public enum FlowType
-        {
-            Departure = 0,
-            Arrival = 1
-        }
-
         public int Id { get; set; }
         public User RegistryClerk { get; set; }
         public Bus BusRegistered { get; set; }
-        public DateTime RegistrationTime { get; set; }
-        public FlowType Flow { get; set; }
+        public DateTime Arrival { get; set; }
+        public DateTime Departure { get; set; }
     }
 }

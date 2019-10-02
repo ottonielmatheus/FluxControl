@@ -17,7 +17,7 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Connection = connection;
 
             cmd.CommandText = @"SELECT * FROM FlowRecords 
-                                WHERE LicensePlate = OR BusNumber = ";
+                                WHERE LicensePlate = OR Number = ";
 
             SqlDataReader reader = cmd.ExecuteReader();
 
