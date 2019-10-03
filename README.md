@@ -10,6 +10,24 @@ Sistema para controle do fluxo de entrada e saída de veículos por automatizaç
 
 Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obter as fotos da placa do Ônibus, após isso a imagem é enviada ao servidor e processada com o recurso de IA para reconhecimento de texto nas imagens capturadas, o servidor processa a placa e faz a tarifação automática. Além disso estará disponível análises e estatísticas de tais operações.
 
+## API's:
+
+#### Usuário
+* ##### Add
+  #### URI: "/API/User/Add" 
+
+  Request:
+  ```javascript 
+      {
+        Name: "Nome Exemplo",
+        Registration: 123456,
+        Email: "email@exemplo.com",
+        Type: 0 // enum 0 = Operador, 1 = Transparência, 2 = Gerente, 3 = Administrador
+      }
+  ````
+  Responses:
+
+
 ## Telas do Sistema:
 
 ### Operador:
