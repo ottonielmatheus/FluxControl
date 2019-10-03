@@ -14,41 +14,37 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
 ### Operador:
 
-#### Início
-<img src="/Design/Início - Operador.png" alt="Tela de Início - Operador"/>
+Início  |
+--------|
+<img src="/Design/Início - Operador.png" alt="Tela de Início - Operador"/> |
 
-#### Detalhes da tela
-<img src="/Design/Detalhes - Operador.png" alt="Detalhes da Tela - Operador"/>
-
-#### Modal ocorrência
-<img src="/Design/Modal Ocorrência - Operador.png" alt="Modal Ocorrência - Operador"/>
+Detalhes | Modal Ocorrência
+---------|-----------------
+<img src="/Design/Detalhes - Operador.png" alt="Detalhes da Tela - Operador"/> | <img src="/Design/Detalhes - Operador.png" alt="Detalhes da Tela - Operador"/>
 
 ### Gerente:
 
-#### Início
-<img src="/Design/Início - Gerente.png" alt="Tela de Início - Gerente"/>
+ Início | 
+ -------|
+ <img src="/Design/Início - Gerente.png" alt="Tela de Início - Gerente"/> |
+ 
+ Relatórios |
+ -----------|
+ <img src="/Design/Relatórios - Gerente.png" alt="Relatórios - Gerente"/> |
+ 
+ Pesquisa Avançada | Detalhes da Pesquisa
+ ------------------|---------------------
+<img src="/Design/Pesquisa Avançada Relatórios - Gerente.png" alt="Pesquisa avançada (Relatórios) - Gerente"/> | <img src="/Design/Detalhes da Pesquisa - Gerente.png" alt="Detalhes da pesquisa (Relatórios) - Gerente"/>
 
-#### Relatórios
-<img src="/Design/Relatórios - Gerente.png" alt="Relatórios - Gerente"/>
+Cadastro funcionário |
+---------------------|
+<img src="/Design/Cadastro Funcionário - Gerente.png" alt="Cadastro funcionário - Gerente"/> |
+<img src="/Design/Cadastro Funcionário (Tela alerta apagar funcionário) - Gerente.png" alt="Cadastro funcionário (alerta) - Gerente"/> |
 
-#### Pesquisa avançada (Relatórios)
-<img src="/Design/Pesquisa Avançada Relatórios - Gerente.png" alt="Pesquisa avançada (Relatórios) - Gerente"/>
+Cadastro Empresa/Ônibus |
+------------------------|
+<img src="/Design/Cadastro Empresa-Ônibus - Gerente.png" alt="Cadastro Empresa/Ônibus - Gerente"/> |
 
-#### Detalhes da pesquisa (Relatórios)
-<img src="/Design/Detalhes da Pesquisa - Gerente.png" alt="Detalhes da pesquisa (Relatórios) - Gerente"/>
-
-#### Cadastro funcionário
-<img src="/Design/Cadastro Funcionário - Gerente.png" alt="Cadastro funcionário - Gerente"/>
-
-#### Cadastro funcionário (alerta)
-<img src="/Design/Cadastro Funcionário (Tela alerta apagar funcionário) - Gerente.png" alt="Cadastro funcionário (alerta) - Gerente"/>
-
-#### Cadastro Empresa/Ônibus
-<img src="/Design/Cadastro Empresa-Ônibus - Gerente.png" alt="Cadastro Empresa/Ônibus - Gerente"/>
-
-#### Cadastro Empresa/Ônibus (alerta Empresa)
-<img src="/Design/Cadastro Empresa (Tela alerta apagar empresa) - Gerente.png" alt="Cadastro Empresa/Ônibus (alerta Empresa) - Gerente"/>
-
-#### Cadastro Empres/Ônibus (alerta Ônibus)
-<img src="/Design/Cadastro Empresa (Tela alerta apagar ônibus) - Gerente.png" alt="Cadastro Empresa/Ônibus (alerta Ônibus) - Gerente"/>
-
+Alerta Empresa | Alerta Ônibus
+---------------|--------------
+<img src="/Design/Cadastro Empresa (Tela alerta apagar empresa) - Gerente.png" alt="Cadastro Empresa/Ônibus (alerta Empresa) - Gerente"/> | <img src="/Design/Cadastro Empresa (Tela alerta apagar ônibus) - Gerente.png" alt="Cadastro Empresa/Ônibus (alerta Ônibus) - Gerente"/> 
