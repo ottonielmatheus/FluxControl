@@ -22,7 +22,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
         Name: "Nome Exemplo",
         Registration: 123456,
         Email: "email@exemplo.com",
-        Type: 0 // enum 0 = Operador, 1 = Transparência, 2 = Gerente, 3 = Administrador
+        Type: 1 // enum 0 = Transparência, 1 = Operador, 2 = Gerente, 3 = Administrador
       }
   ````
   Responses:
