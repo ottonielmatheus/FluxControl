@@ -14,9 +14,9 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
 #### Usuário
 * ##### Add
-  #### URI: "/API/User/Add" 
+  ###### URI: "/API/User/Add"
 
-  Request:
+  #### Request:
   ```javascript 
       {
         Name: "Nome Exemplo",
@@ -25,8 +25,13 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
         Type: 1 // enum 0 = Transparência, 1 = Operador, 2 = Gerente, 3 = Administrador
       }
   ````
-  Responses:
-
+  #### Responses:
+  
+  Código | Descrição
+  :-------:|----------
+  201 | Usuário cadastrado
+  304 | Usuário não cadastrado
+  
 
 ## Telas do Sistema:
 
