@@ -41,8 +41,6 @@ namespace EmurbBUSControl.Models.DataModels
 
             cmd.Parameters.AddWithValue("", model.RegistryClerk);
             cmd.Parameters.AddWithValue("", model.BusRegistered);
-            cmd.Parameters.AddWithValue("", model.RegistrationTime);
-            cmd.Parameters.AddWithValue("", model.Flow);
 
             return cmd.ExecuteNonQuery() > 0;
         }
@@ -59,8 +57,6 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Parameters.AddWithValue("", id);
             cmd.Parameters.AddWithValue("", model.RegistryClerk);
             cmd.Parameters.AddWithValue("", model.BusRegistered);
-            cmd.Parameters.AddWithValue("", model.RegistrationTime);
-            cmd.Parameters.AddWithValue("", model.Flow);
 
             return cmd.ExecuteNonQuery() > 0;
         }

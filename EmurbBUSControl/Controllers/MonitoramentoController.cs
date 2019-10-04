@@ -12,7 +12,7 @@ namespace EmurbBUSControl.Controllers
     [Route("{controller}/")]
     public class MonitoramentoController : Controller
     {
-        public MonitoramentoController(IHubContext<SerialHub> hub)
+        public MonitoramentoController(IHubContext<HistoricHub> hub)
         {
             SystemNotifier.Init(hub);
         }

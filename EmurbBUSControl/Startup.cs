@@ -34,7 +34,6 @@ namespace EmurbBUSControl
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
         }
@@ -59,7 +58,7 @@ namespace EmurbBUSControl
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<SerialHub>("/serialHub");
+                routes.MapHub<HistoricHub>("/historicHub");
             });
 
             app.UseMvc();

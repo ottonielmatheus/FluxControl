@@ -9,11 +9,12 @@ namespace EmurbBUSControl.Models
 {
     public static class SystemNotifier
     {
-        private static IHubContext<SerialHub> _hub;
+        private static IHubContext<HistoricHub> _hub;
         
-        public static void Init(IHubContext<SerialHub> hub)
+        public static void Init(IHubContext<HistoricHub> hub)
         {
-            _hub = hub;
+            if (_hub == null)
+                _hub = hub;
         }
 
         public static Task SendNotificationAsync(CommunicationStatus status)

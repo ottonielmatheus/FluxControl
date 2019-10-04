@@ -10,7 +10,7 @@ namespace EmurbBUSControl.Models.DataModels
     public abstract class Database : IDisposable
     {
         protected readonly SqlConnection connection;
-        protected readonly string connectionString = @"";
+        protected readonly string connectionString = @"Server=LAPTOP-1I08H1PB\SQLEXPRESS;Database=EmurbFluxControl;Integrated Security=SSPI;";
 
         protected Database()
         {

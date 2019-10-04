@@ -9,7 +9,7 @@ using EmurbBUSControl.Models;
 
 namespace EmurbBUSControl.Hubs
 {
-    public class SerialHub : Hub
+    public class HistoricHub : Hub
     {
         public async Task SendMessage(int status)
         {
