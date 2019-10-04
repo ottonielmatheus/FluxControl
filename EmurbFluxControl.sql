@@ -1,0 +1,72 @@
+CREATE DATABASE EmurbFluxControl;
+GO
+
+USE EmurbFluxControl;
+GO
+
+CREATE TABLE Companies
+(
+	Id			INT				NOT NULL	IDENTITY	PRIMARY KEY,
+	Name		VARCHAR(60)		NOT NULL,
+	Thumbnail	VARCHAR(MAX)	NOT NULL
+);
+GO
+
+CREATE TABLE Bus
+(
+	Number		INT				NOT NULL	IDENTITY PRIMARY KEY,
+	LicensePlate	VARCHAR(10)		NOT NULL,
+
+	Company_Id		INT				NOT NULL	REFERENCES Companies
+);
+GO
+
+CREATE TABLE Users
+(
+	Id				INT				NOT NULL	IDENTITY	PRIMARY KEY,
+	Name			VARCHAR(60)		NOT NULL,
+	Registration	INT				NOT NULL,
+	Email			VARCHAR(60)		NOT NULL,
+	Password		VARCHAR(MAX)	NOT NULL,
+	Type			SMALLINT		NOT NULL	DEFAULT 0
+);
+GO
+
+CREATE TABLE Occurrences
+(
+	Id			INT			NOT NULL	IDENTITY	PRIMARY KEY,
+	Type		SMALLINT	NOT NULL,
+
+	"User_Id"	INT			NOT NULL				REFERENCES Users
+);
+GO
+
+CREATE TABLE Bus_Ocurrences
+(
+	Justification	VARCHAR(MAX)	NOT NULL,
+
+	Ocurrence_Id	INT				NOT NULL	REFERENCES Occurrences,
+	Bus_Number		INT				NOT NULL	REFERENCES Bus
+);
+GO
+
+CREATE TABLE Invoices
+(
+	Id			INT		NOT NULL	IDENTITY	PRIMARY KEY,
+	Total		MONEY	NOT NULL,
+
+	Company_Id	INT		NOT	NULL				REFERENCES Companies
+);
+GO
+
+CREATE TABLE FlowRecords
+(
+	Id				INT			NOT NULL	IDENTITY PRIMARY KEY,
+	Arrival			DATETIME	NOT NULL,
+	Departure		DATETIME,
+
+	"User_Id"			INT			NOT NULL	REFERENCES Users,
+	Bus_Number			INT			NOT NULL	REFERENCES Bus,
+	Invoice_Id			INT						REFERENCES Invoices
+);
+GO
