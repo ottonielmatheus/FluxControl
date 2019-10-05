@@ -62,22 +62,8 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   
   Código | Retorno | Retorno 2 |
   :-------:|-------|-----------|
-  200 | [{user}, ...] | [] |
+  200 | [{ User }, ...] | [] |
   424 | Falha | |
-  
-* ##### [GET] Get
-  ###### URI: "/API/User/Get/{id}"
-
-  #### Request:
-  ```javascript
-      "/API/User/Get/10" // URI + id do usuário
-  ````
-  #### Responses:
-  
-  Código | Retorno | Retorno 2 |
-  :-------:|-------|-----------|
-  200 | { User } | _null_ |
-  424 | Erro ao obter usuário | |
   
 * ##### [PATCH] Change
   ###### URI: "/API/User/Change"
