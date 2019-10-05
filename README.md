@@ -41,7 +41,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
   #### Request:
   ```javascript
-      "/API/User/Get/10"
+      "/API/User/Get/10" // URI + id do usuário
   ````
   #### Responses:
   
@@ -50,12 +50,12 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   200 | { User } | _null_ |
   424 | Erro ao obter usuário | |
   
-  * ##### [GET] Load
+* ##### [GET] Load
   ###### URI: "/API/User/Load"
 
   #### Request:
   ```javascript
-      "/API/User/Load"
+      "/API/User/Load" // URI
   ````
   
   #### Responses:
@@ -70,7 +70,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
   #### Request:
   ```javascript
-      "/API/User/Get/10"
+      "/API/User/Get/10" // URI + id do usuário
   ````
   #### Responses:
   
@@ -120,7 +120,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
   #### Request:
   ```javascript
-      "/API/User/SetPassword/abc23-1234-abcf-1234"
+      "/API/User/SetPassword/abc23-1234-abcf-1234" // URI + token
   ````
   ```javascript
       "senha12345" // senha
