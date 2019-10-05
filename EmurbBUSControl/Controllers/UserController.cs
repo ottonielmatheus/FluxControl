@@ -30,7 +30,7 @@ namespace EmurbBUSControl.Controllers
 
                 }
 
-                return StatusCode(201, new { Message = "Não criado" });
+                return StatusCode(304, new { Message = "Não criado" });
             }
 
             catch(Exception ex)
@@ -40,7 +40,7 @@ namespace EmurbBUSControl.Controllers
         }
 
         [HttpGet]
-        [Route("Get/")]
+        [Route("Get/{id}")]
         public ActionResult Get(int id)
         {
             try
@@ -60,8 +60,16 @@ namespace EmurbBUSControl.Controllers
         [Route("Load/")]
         public ActionResult Load()
         {
-            using (var userDAO = new UserDAO())
-                return Json(userDAO.Load());
+            try
+            {
+                using (var userDAO = new UserDAO())
+                    return StatusCode(200, userDAO.Load());
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(424, new { Message = "Falha" });
+            }
+            
         }
 
         [HttpPatch]
@@ -69,7 +77,10 @@ namespace EmurbBUSControl.Controllers
         public ActionResult Change(int id, [FromBody] User user)
         {
             using (var userDAO = new UserDAO())
-                return Json(userDAO.Change(id, user));
+                if (userDAO.Change(id, user))
+                    return StatusCode(200, new { Message = "Alterado com sucesso" });
+
+            return StatusCode(304, new { Message = "Não alterado" });
         }
 
         [HttpPost]
@@ -130,8 +141,17 @@ namespace EmurbBUSControl.Controllers
         [Route("Remove/")]
         public ActionResult Remove(int id)
         {
-            using (var userDAO = new UserDAO())
-                return Json(userDAO.Remove(id));
+            try
+            {
+                using (var userDAO = new UserDAO())
+                    if (userDAO.Remove(id))
+                        return StatusCode(200, new { Message = "Removido" } );
+            }
+            
+            catch(Exception ex)
+            {
+                return StatusCode(424, new { Message = "Falha" });
+            }
         }
     }
 }
