@@ -16,7 +16,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 ## API's:
 
 #### Usuário
-* ##### Add
+* ##### [POST] Add
   ###### URI: "/API/User/Add"
 
   #### Request:
@@ -30,11 +30,123 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   ````
   #### Responses:
   
-  Código | Descrição
+  Código | Retorno
   :-------:|----------
-  201 | Usuário cadastrado
-  304 | Usuário não cadastrado
+  201 | Criado com sucesso
+  304 | Não criado
+  424 | Falha
   
+* ##### [GET] Get
+  ###### URI: "/API/User/Get/{id}"
+
+  #### Request:
+  ```javascript
+      "/API/User/Get/10"
+  ````
+  #### Responses:
+  
+  Código | Retorno | Retorno 2 |
+  :-------:|-------|-----------|
+  200 | { User } | _null_ |
+  424 | Erro ao obter usuário | |
+  
+  * ##### [GET] Load
+  ###### URI: "/API/User/Load"
+
+  #### Request:
+  ```javascript
+      "/API/User/Load"
+  ````
+  
+  #### Responses:
+  
+  Código | Retorno | Retorno 2 |
+  :-------:|-------|-----------|
+  200 | [{user}, ...] | [] |
+  424 | Falha | |
+  
+* ##### [GET] Get
+  ###### URI: "/API/User/Get/{id}"
+
+  #### Request:
+  ```javascript
+      "/API/User/Get/10"
+  ````
+  #### Responses:
+  
+  Código | Retorno | Retorno 2 |
+  :-------:|-------|-----------|
+  200 | { User } | _null_ |
+  424 | Erro ao obter usuário | |
+  
+* ##### [PATCH] Change
+  ###### URI: "/API/User/Change"
+
+  #### Request:
+  ```javascript
+      {
+        Name: "Nome Exemplo Atualizado",
+        Registration: 654321,
+        Email: "email@exemplo.com",
+        Type: 1 // enum 0 = Transparência, 1 = Operador, 2 = Gerente, 3 = Administrador
+      }
+  ````
+
+  #### Responses:
+
+  Código | Retorno 
+  :-------:|-------
+  200 | Alterado com sucesso
+  304 | Não alterado
+  
+* ##### [POST] NewPassword
+  ###### URI: "/API/User/NewPassword"
+
+  #### Request:
+  ```javascript
+      "10" // id do usuário
+  ````
+  
+  #### Responses:
+  
+  Código | Retorno 
+  :-------:|-------
+  201 | Enviado
+  424 | Erro ao gerar Token
+  424 | Houve um erro ao enviar o token para o email deste usuário
+  
+* ##### [POST] SetPassword
+  ###### URI: "/API/User/SetPassword/{token}"
+
+  #### Request:
+  ```javascript
+      "/API/User/SetPassword/abc23-1234-abcf-1234"
+  ````
+  ```javascript
+      "senha12345" // senha
+  ````
+  
+  #### Responses:
+  
+  Código | Retorno 
+  :-------:|-------
+  201 | Senha definida
+  424 | Falha ao definir senha
+
+* ##### [DELETE] Remove
+  ###### URI: "/API/User/Remove"
+
+  #### Request:
+  ```javascript
+      "10" // id do usuário
+  ````
+
+  #### Responses:
+
+  Código | Retorno 
+  :-------:|-------
+  200 | Enviado
+  424 | Falha
 
 ## Telas do Sistema:
 
