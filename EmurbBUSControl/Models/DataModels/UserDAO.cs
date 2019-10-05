@@ -30,7 +30,7 @@ namespace EmurbBUSControl.Models.DataModels
             var cmd = new SqlCommand();
 
             cmd.Connection = connection;
-            cmd.CommandText = @"UPDATE User
+            cmd.CommandText = @"UPDATE Users
                                 SET Name = @Name, Registration = @Registration, Email = @Email, Type = @Type
                                 WHERE Id = @Id";
 
@@ -39,6 +39,21 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Parameters.AddWithValue("@Registration", model.Registration);
             cmd.Parameters.AddWithValue("@Email", model.Email);
             cmd.Parameters.AddWithValue("@Type", model.Type);
+
+            return cmd.ExecuteNonQuery() > 0;
+        }
+
+        public bool SetPassword(int id, string password)
+        {
+            var cmd = new SqlCommand();
+
+            cmd.Connection = connection;
+            cmd.CommandText = @"UPDATE Users
+                                SET Password = @Password
+                                WHERE Id = @Id";
+
+            cmd.Parameters.AddWithValue("@Id", id);
+            cmd.Parameters.AddWithValue("@Password", password);
 
             return cmd.ExecuteNonQuery() > 0;
         }
@@ -53,17 +68,16 @@ namespace EmurbBUSControl.Models.DataModels
 
             cmd.Parameters.AddWithValue("@Id", id);
 
-            var reader = cmd.ExecuteReader();
-
-            if (reader.Read())
-                model = new User()
-                {
-                    Id = (int) reader["Id"],
-                    Name = (string) reader["Name"],
-                    Registration = (int) reader["Registration"],
-                    Email = (string) reader["Email"],
-                    Type = (UserType)(short)reader["Type"]
-                };
+            using (var reader = cmd.ExecuteReader())
+                if (reader.Read())
+                    model = new User()
+                    {
+                        Id = (int) reader["Id"],
+                        Name = (string) reader["Name"],
+                        Registration = (int) reader["Registration"],
+                        Email = (string) reader["Email"],
+                        Type = (UserType)(short) reader["Type"]
+                    };
 
             return model;
         }
@@ -77,19 +91,18 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Connection = connection;
             cmd.CommandText = "SELECT * FROM Users";
 
-            var reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-                models.Add(
-                    new User()
-                    {
-                        Id = (int)reader["Id"],
-                        Name = (string)reader["Name"],
-                        Registration = (int)reader["Registration"],
-                        Email = (string)reader["Email"],
-                        Type = (UserType)(short) reader["Type"]
-                    }
-                );
+            using (var reader = cmd.ExecuteReader())
+                while (reader.Read())
+                    models.Add(
+                        new User()
+                        {
+                            Id = (int)reader["Id"],
+                            Name = (string)reader["Name"],
+                            Registration = (int)reader["Registration"],
+                            Email = (string)reader["Email"],
+                            Type = (UserType)(short) reader["Type"]
+                        }
+                    );
 
             return models;
         }

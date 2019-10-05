@@ -99,10 +99,31 @@ namespace EmurbBUSControl.Controllers
         }
 
         [HttpPost]
-        [Route("SetPassword/")]
-        public ActionResult SetPassword(string token, string password)
+        [Route("SetPassword/{token}")]
+        public ActionResult SetPassword(string token, [FromBody] string password)
         {
-            return null;
+            try
+            {
+                using (var tokenDAO = new TokenDAO())
+                {
+                    var validToken = tokenDAO.GetByHash(token);
+
+                    if (validToken != null)
+                    {
+                        using (var userDAO = new UserDAO())
+                            userDAO.SetPassword(validToken.User.Id, password);
+
+                        tokenDAO.Remove(validToken.Id);
+                    }
+                }
+
+                return StatusCode(201, new { Message = "Senha definida" });
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(424, new { Message = "Falha ao definir senha" });
+            }
+                
         }
 
         [HttpDelete]
