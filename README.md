@@ -145,7 +145,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
   Código | Retorno 
   :-------:|-------
-  200 | Enviado
+  200 | Removido
   424 | Falha
 
 ## Telas do Sistema:
