@@ -1,23 +1,32 @@
-CREATE DATABASE EmurbFluxControl;
+CREATE DATABASE FluxControl;
 GO
 
-USE EmurbFluxControl;
+USE FluxControl;
 GO
 
 CREATE TABLE Companies
 (
-	Id			INT				NOT NULL	IDENTITY	PRIMARY KEY,
-	Name		VARCHAR(60)		NOT NULL,
-	Thumbnail	VARCHAR(MAX)	NOT NULL
+	Id					INT				NOT NULL	IDENTITY	PRIMARY KEY,
+	Name				VARCHAR(60)		NOT NULL,
+	Thumbnail			VARCHAR(MAX)	NOT NULL,
+	Invoice_Interval	SMALLINT		NOT NULL	DEFAULT 30
 );
 GO
 
-CREATE TABLE Bus
+CREATE TABLE Buses
 (
-	Number		INT				NOT NULL	IDENTITY PRIMARY KEY,
+	Id				INT				NOT NULL	IDENTITY PRIMARY KEY,
+	Number			INT				NOT NULL,
 	LicensePlate	VARCHAR(10)		NOT NULL,
 
 	Company_Id		INT				NOT NULL	REFERENCES Companies
+);
+GO
+
+CREATE TABLE UserTypes
+(
+	Id		SMALLINT		NOT NULL	IDENTITY	PRIMARY KEY,
+	Name	VARCHAR(30)		NOT NULL
 );
 GO
 
@@ -25,28 +34,30 @@ CREATE TABLE Users
 (
 	Id				INT				NOT NULL	IDENTITY	PRIMARY KEY,
 	Name			VARCHAR(60)		NOT NULL,
-	Registration	INT				NOT NULL,
+	Registration	INT				NOT NULL	UNIQUE,
 	Email			VARCHAR(60)		NOT NULL,
-	Password		VARCHAR(MAX)	NOT NULL,
-	Type			SMALLINT		NOT NULL	DEFAULT 0
+	Password		VARCHAR(MAX),
+	Type			SMALLINT		NOT NULL				REFERENCES UserTypes
 );
 GO
 
 CREATE TABLE Occurrences
 (
 	Id			INT			NOT NULL	IDENTITY	PRIMARY KEY,
-	Type		SMALLINT	NOT NULL,
+	Type		SMALLINT	NOT NULL				REFERENCES UserTypes,
 
 	"User_Id"	INT			NOT NULL				REFERENCES Users
 );
 GO
 
-CREATE TABLE Bus_Ocurrences
+CREATE TABLE Bus_Occurrences
 (
 	Justification	VARCHAR(MAX)	NOT NULL,
 
-	Ocurrence_Id	INT				NOT NULL	REFERENCES Occurrences,
-	Bus_Number		INT				NOT NULL	REFERENCES Bus
+	Occurrence_Id	INT				NOT NULL	REFERENCES Occurrences,
+	Bus_Id			INT				NOT NULL	REFERENCES Buses,
+
+	CONSTRAINT PK_Bus_Ocurrences	PRIMARY KEY(Occurrence_Id, Bus_Id)
 );
 GO
 
@@ -61,12 +72,21 @@ GO
 
 CREATE TABLE FlowRecords
 (
-	Id				INT			NOT NULL	IDENTITY PRIMARY KEY,
+	Id				INT			NOT NULL	IDENTITY	PRIMARY KEY,
 	Arrival			DATETIME	NOT NULL,
 	Departure		DATETIME,
 
-	"User_Id"			INT			NOT NULL	REFERENCES Users,
-	Bus_Number			INT			NOT NULL	REFERENCES Bus,
-	Invoice_Id			INT						REFERENCES Invoices
+	"User_Id"		INT			NOT NULL				REFERENCES Users,
+	Bus_Id			INT			NOT NULL				REFERENCES Buses,
+	Invoice_Id		INT									REFERENCES Invoices
+);
+GO
+
+CREATE TABLE Tokens
+(
+	Code		INT				NOT NULL	IDENTITY	PRIMARY KEY,
+	Hash		VARCHAR(MAX)	NOT NULL,
+	"User_Id"	INT				NOT NULL				REFERENCES Users,
+	Expires		DATETIME		NOT NULL			
 );
 GO
