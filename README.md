@@ -84,7 +84,23 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   :-------:|-------
   200 | Alterado com sucesso
   304 | Não alterado
+
+* ##### [POST] GetToken
+  ###### URI: "/API/User/GetToken"
+
+  #### Request:
+  ```javascript
+  "abc23-1234-abcf-1234" // token
+  ````
   
+  #### Responses:
+  
+  Código | Retorno 
+  :-------:|-------
+  200 | { Token }
+  406 | Token inválido
+  500 | Falha ao obter token
+
 * ##### [POST] NewPassword
   ###### URI: "/API/User/NewPassword"
 
@@ -101,12 +117,12 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   424 | Erro ao gerar Token
   424 | Houve um erro ao enviar o token para o email deste usuário
   
-* ##### [POST] SetPassword
-  ###### URI: "/API/User/SetPassword/{token}"
+* ##### [POST] DefinePassword
+  ###### URI: "/API/User/DefinePassword/{token}"
 
   #### Request:
   ```javascript
-      "/API/User/SetPassword/abc23-1234-abcf-1234" // URI + token
+      "/API/User/DefinePassword/abc23-1234-abcf-1234" // URI + token
   ````
   ```javascript
       "senha12345" // senha
@@ -164,6 +180,10 @@ Cadastro funcionário |
 ---------------------|
 <img src="/Design/Cadastro Funcionário - Gerente.png" alt="Cadastro funcionário - Gerente"/> |
 <img src="/Design/Cadastro Funcionário (Tela alerta apagar funcionário) - Gerente.png" alt="Cadastro funcionário (alerta) - Gerente"/> |
+
+Sucesso | Falha
+--------|------
+<img src="/Design/Cadastro Funcionário Sucesso ao solicitar nova senha - Gerente.png" alt="Cadastro Funcionário (Sucesso) - Gerente"/> | <img src="/Design/Cadastro Funcionário Falha ao solicitar nova senha - Gerente.png" alt="Cadastro Funcionário (Falha) - Gerente"/> 
 
 Cadastro Empresa/Ônibus |
 ------------------------|
