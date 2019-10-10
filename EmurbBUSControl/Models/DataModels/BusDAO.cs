@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmurbBUSControl.Models.DataModels
 {
-    public class BusDAO : Database, ICrudDAO<Bus>
+    public class BusDAO : Database//, ICrudDAO<Bus>
     {
 
         public Bus Get(string identifier)

@@ -7,22 +7,29 @@ using System.Threading.Tasks;
 
 namespace EmurbBUSControl.Models.DataModels
 {
-    public class UserDAO : Database, ICrudDAO<User>
+    public class UserDAO : Database//, ICrudDAO<User>
     {
-        public bool Add(User model)
+        public int Add(User model)
         {
             var cmd = new SqlCommand();
 
             cmd.Connection = connection;
             cmd.CommandText = @"INSERT INTO Users (Name, Registration, Email, Type) 
-                                VALUES (@Name, @Registration, @Email, @Type)";
+                                VALUES (@Name, @Registration, @Email, @Type)
+                                SELECT CAST(@@IDENTITY AS INT)";
 
             cmd.Parameters.AddWithValue("@Name", model.Name);
             cmd.Parameters.AddWithValue("@Registration", model.Registration);
             cmd.Parameters.AddWithValue("@Email", model.Email);
             cmd.Parameters.AddWithValue("@Type", model.Type);
 
-            return cmd.ExecuteNonQuery() > 0;
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if(reader.Read())
+                return reader.GetInt32(0);
+
+            return 0;
+
         }
 
         public bool Change(int id, User model)

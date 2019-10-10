@@ -8,30 +8,27 @@ using System.Threading.Tasks;
 
 namespace EmurbBUSControl.Models.DataModels
 {
-    public class TokenDAO : Database, ICrudDAO<Token>
+    public class TokenDAO : Database
     {
-        public bool Add(Token model)
+        public int Add(Token model)
         {
             var cmd = new SqlCommand();
 
             cmd.Connection = connection;
-            cmd.CommandText = @"INSERT INTO Tokens (Hash, User_Id)
-                                VALUES (@Hash, @UserId)";
+            cmd.CommandText = @"INSERT INTO Tokens (Hash, Expires, User_Id)
+                                VALUES (@Hash, @Expires, @UserId)
+                                SELECT CAST(@@IDENTITY AS INT)";
 
             cmd.Parameters.AddWithValue("@Hash", model.Hash);
+            cmd.Parameters.AddWithValue("@Expires", model.Expires);
             cmd.Parameters.AddWithValue("@UserId", model.User.Id);
 
-            return cmd.ExecuteNonQuery() > 0;
-        }
+            SqlDataReader reader = cmd.ExecuteReader();
 
-        public bool Change(int id, Token model)
-        {
-            throw new NotImplementedException();
-        }
+            if (reader.Read())
+                return reader.GetInt32(0);
 
-        public Token Get(int id)
-        {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public Token GetByHash(string hash)
@@ -40,7 +37,7 @@ namespace EmurbBUSControl.Models.DataModels
             Token model = null;
 
             cmd.Connection = connection;
-            cmd.CommandText = @"SELECT t.*, u.*, u.id as id_User
+            cmd.CommandText = @"SELECT t.*, u.*
                                 FROM Tokens t
                                 JOIN Users u
                                 ON t.User_Id = u.Id
@@ -53,7 +50,7 @@ namespace EmurbBUSControl.Models.DataModels
                 {
                     var user = new User()
                     {
-                        Id = (int)reader["id_User"],
+                        Id = (int)reader["Id"],
                         Name = (string)reader["Name"],
                         Registration = (int)reader["Registration"],
                         Email = (string)reader["Email"],
@@ -62,28 +59,30 @@ namespace EmurbBUSControl.Models.DataModels
 
                     model = new Token(user)
                     {
-                        Id = (int)reader["Id"],
-                        Hash = (string)reader["Hash"]
+                        Code = (int)reader["Code"],
+                        Hash = (string)reader["Hash"],
+                        Expires = (DateTime)reader["Expires"]
                     };
                 }
-                
+
+            if (model != null && model.Expires < DateTime.Now)
+            {
+                this.Remove(model.Code);
+                throw new Exception("Token expirado");
+            }
+
             return model;
         }
 
-        public List<Token> Load()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(int id)
+        public bool Remove(int code)
         {
             var cmd = new SqlCommand();
 
             cmd.Connection = connection;
             cmd.CommandText = @"DELETE Tokens
-                                WHERE Id = @Id";
+                                WHERE Code = @Code";
 
-            cmd.Parameters.AddWithValue("@Id", id);
+            cmd.Parameters.AddWithValue("@Code", code);
 
             return cmd.ExecuteNonQuery() > 0;
         }

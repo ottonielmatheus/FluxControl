@@ -86,7 +86,9 @@ CREATE TABLE Tokens
 (
 	Code		INT				NOT NULL	IDENTITY	PRIMARY KEY,
 	Hash		VARCHAR(MAX)	NOT NULL,
+	Expires		DATETIME		NOT NULL,
+
 	"User_Id"	INT				NOT NULL				REFERENCES Users,
-	Expires		DATETIME		NOT NULL			
+				
 );
 GO

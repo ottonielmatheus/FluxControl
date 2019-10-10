@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace EmurbBUSControl.Models.DataModels
 {
-    public class FlowRecordDAO : Database, ICrudDAO<FlowRecord>
+    public class FlowRecordDAO : Database //, ICrudDAO<FlowRecord>
     {
-        public bool Add(string identifier)
+        public bool Add(string licensePlate)
         {
             Bus busRegistered = null;
 
             using (BusDAO busDAO = new BusDAO())
-                busRegistered = busDAO.Get(identifier);
+                busRegistered = busDAO.Get(licensePlate);
 
             if (busRegistered != null)
                 return this.Add
@@ -25,6 +25,26 @@ namespace EmurbBUSControl.Models.DataModels
                     }
                 );
             
+
+            return false;
+        }
+
+        public bool Add(int busNumber)
+        {
+            Bus busRegistered = null;
+
+            using (BusDAO busDAO = new BusDAO())
+                busRegistered = busDAO.Get(busNumber);
+
+            if (busRegistered != null)
+                return this.Add
+                (
+                    new FlowRecord()
+                    {
+
+                    }
+                );
+
 
             return false;
         }

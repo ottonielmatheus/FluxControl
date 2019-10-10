@@ -20,14 +20,23 @@ namespace EmurbBUSControl.Controllers
             {
                 using (var userDAO = new UserDAO())
                 {
-                    if (userDAO.Add(user))
+                    user.Id = userDAO.Add(user);
+
+                    if (user.Id != 0)
                     {
+                        Token token = new Token(user);
                         var emurbMail = new SystemMail();
-                        emurbMail.SendNewPasswordMail(user, Request);
 
-                        return StatusCode(201, new { Message = "Criado com sucesso" });
+                        if (emurbMail.SendNewPasswordMail(Request, token))
+                        {
+                            using (var tokenDAO = new TokenDAO())
+                                tokenDAO.Add(token);
+
+                            return StatusCode(201, new { Message = "Criado com sucesso" });
+                        }
+                            
+                        return StatusCode(304, new { Message = "Falha ao enviar email" });
                     }
-
                 }
 
                 return StatusCode(304, new { Message = "Não criado" });
@@ -35,7 +44,7 @@ namespace EmurbBUSControl.Controllers
 
             catch(Exception ex)
             {
-                return StatusCode(424, new { Message = "Falha" });
+                return StatusCode(500, new { Message = "Falha" });
             }
         }
 
@@ -51,7 +60,7 @@ namespace EmurbBUSControl.Controllers
 
             catch(Exception ex)
             {
-                return StatusCode(424, new { Message = "Erro ao obter usuário" });
+                return StatusCode(500, new { Message = "Erro ao obter usuário" });
             }
             
         }
@@ -67,7 +76,7 @@ namespace EmurbBUSControl.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(424, new { Message = "Falha" });
+                return StatusCode(500, new { Message = "Falha ao carregar usuários" });
             }
             
         }
@@ -76,11 +85,19 @@ namespace EmurbBUSControl.Controllers
         [Route("Change/")]
         public ActionResult Change(int id, [FromBody] User user)
         {
-            using (var userDAO = new UserDAO())
-                if (userDAO.Change(id, user))
-                    return StatusCode(200, new { Message = "Alterado com sucesso" });
+            try
+            {
+                using (var userDAO = new UserDAO())
+                    if (userDAO.Change(id, user))
+                        return StatusCode(200, new { Message = "Alterado com sucesso" });
 
-            return StatusCode(304, new { Message = "Não alterado" });
+                return StatusCode(304, new { Message = "Não alterado" });
+            }
+
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { Message = "Erro ao alterar usuário" });
+            }
         }
 
         [HttpPost]
@@ -94,23 +111,49 @@ namespace EmurbBUSControl.Controllers
                 using (var userDAO = new UserDAO())
                     user = userDAO.Get(id);
 
+                Token token = new Token(user);
                 var emurbMail = new SystemMail();
 
-                if (user != null && emurbMail.SendNewPasswordMail(user, Request))
-                    return StatusCode(201, new { Message = "Enviado" });
+                if (user != null && emurbMail.SendNewPasswordMail(Request, token))
+                {
+                    using (var tokenDAO = new TokenDAO())
+                        tokenDAO.Add(token);
+
+                    return StatusCode(200, new { Message = "Enviado" });
+                }
 
                 return StatusCode(424, new { Message = "Erro ao gerar Token" });
             }
             
             catch(Exception ex)
             {
-                return StatusCode(424, new { Message = "Houve um erro ao enviar o token para o email deste usuário" });
+                return StatusCode(500, new { Message = "Houve um erro ao enviar o token para o email deste usuário" });
             }
 
         }
 
         [HttpPost]
-        [Route("SetPassword/{token}")]
+        [Route("GetToken/")]
+        public ActionResult GetToken([FromBody] string token)
+        {
+            try
+            {
+                Token validToken;
+
+                using (var tokenDAO = new TokenDAO())
+                    validToken = tokenDAO.GetByHash(token);
+
+                return (validToken != null) ? StatusCode(200, validToken) : StatusCode(406, new { Message = "Token inválido" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Falha ao obter token" });
+            }
+
+        }
+
+        [HttpPost]
+        [Route("DefinePassword/{token}")]
         public ActionResult SetPassword(string token, [FromBody] string password)
         {
             try
@@ -119,20 +162,21 @@ namespace EmurbBUSControl.Controllers
                 {
                     var validToken = tokenDAO.GetByHash(token);
 
-                    if (validToken != null)
+                    if (validToken != null && !string.IsNullOrEmpty(password))
                     {
                         using (var userDAO = new UserDAO())
-                            userDAO.SetPassword(validToken.User.Id, password);
-
-                        tokenDAO.Remove(validToken.Id);
+                            if (userDAO.SetPassword(validToken.User.Id, password))
+                                tokenDAO.Remove(validToken.Code);
+                        
+                        return StatusCode(202, new { Message = "Senha definida" });
                     }
-                }
 
-                return StatusCode(201, new { Message = "Senha definida" });
+                    return StatusCode(406, new { Message = "Token inválido" });
+                }
             }
             catch(Exception ex)
             {
-                return StatusCode(424, new { Message = "Falha ao definir senha" });
+                return StatusCode(500, new { Message = "Falha ao definir senha" });
             }
                 
         }
@@ -146,11 +190,13 @@ namespace EmurbBUSControl.Controllers
                 using (var userDAO = new UserDAO())
                     if (userDAO.Remove(id))
                         return StatusCode(200, new { Message = "Removido" } );
+
+                return StatusCode(304, new { Message = "Não Removido" });
             }
             
             catch(Exception ex)
             {
-                return StatusCode(424, new { Message = "Falha" });
+                return StatusCode(500, new { Message = "Falha ao remover" });
             }
         }
     }

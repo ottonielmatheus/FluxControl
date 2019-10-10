@@ -7,7 +7,7 @@ namespace EmurbBUSControl.Models.DataModels
 {
     interface ICrudDAO<T>
     {
-        bool Add(T model);
+        int Add(T model);
 
         List<T> Load();
 

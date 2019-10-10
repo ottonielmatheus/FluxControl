@@ -8,8 +8,9 @@ namespace EmurbBUSControl.Models.BusinessRule
 {
     public class Bus
     {
+        public int Id { get; set; }
         public int Number { get; set; }
-        public Company BusCompany { get; set; }
+        public int BusCompany { get; set; }
         public string LicensePlate { get; set; }
     }
 }
