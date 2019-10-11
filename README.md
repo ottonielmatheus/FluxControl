@@ -33,8 +33,9 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   Código | Retorno
   :-------:|----------
   201 | Criado com sucesso
-  304 | Não criado
-  424 | Falha
+  424 | Falha ao enviar email
+  304 | Não cirado
+  500 | Falha
   
 * ##### [GET] Get
   ###### URI: "/API/User/Get/{id}"
@@ -48,7 +49,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   Código | Retorno | Retorno 2 |
   :-------:|-------|-----------|
   200 | { User } | _null_ |
-  424 | Erro ao obter usuário | |
+  500 | Falha ao obter usuário | |
   
 * ##### [GET] Load
   ###### URI: "/API/User/Load"
@@ -63,7 +64,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   Código | Retorno | Retorno 2 |
   :-------:|-------|-----------|
   200 | [{ User }, ...] | [] |
-  424 | Falha | |
+  500 | Falha ao carregar usuários | |
   
 * ##### [PATCH] Change
   ###### URI: "/API/User/Change"
@@ -84,6 +85,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   :-------:|-------
   200 | Alterado com sucesso
   304 | Não alterado
+  500 | Falha ao alterar usuário
 
 * ##### [POST] GetToken
   ###### URI: "/API/User/GetToken"
@@ -100,22 +102,6 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   200 | { Token }
   406 | Token inválido
   500 | Falha ao obter token
-
-* ##### [POST] NewPassword
-  ###### URI: "/API/User/NewPassword"
-
-  #### Request:
-  ```javascript
-      "10" // id do usuário
-  ````
-  
-  #### Responses:
-  
-  Código | Retorno 
-  :-------:|-------
-  201 | Enviado
-  424 | Erro ao gerar Token
-  424 | Houve um erro ao enviar o token para o email deste usuário
   
 * ##### [POST] DefinePassword
   ###### URI: "/API/User/DefinePassword/{token}"
@@ -132,8 +118,9 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   
   Código | Retorno 
   :-------:|-------
-  201 | Senha definida
-  424 | Falha ao definir senha
+  202 | Senha definida
+  406 | Token inválido
+  500 | Falha ao definir senha
 
 * ##### [DELETE] Remove
   ###### URI: "/API/User/Remove"
@@ -148,7 +135,8 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   Código | Retorno 
   :-------:|-------
   200 | Removido
-  424 | Falha
+  304 | Não Removido
+  500 | Falha ao remover
 
 ## Telas do Sistema:
 
