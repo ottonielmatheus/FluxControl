@@ -140,6 +140,10 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
 ## Telas do Sistema:
 
+Login | Definir Senha
+-------|--------------
+<img src="/Design/Tela de Login.png" alt="Tela de Login"/> | <img src="/Design/Tela de definição de senha.png" alt="Tela de Definição de Senha"/>
+
 ### Operador:
 
 Início  |
@@ -152,9 +156,10 @@ Detalhes | Modal Ocorrência
 
 ### Gerente:
 
- Início | 
- -------|
- <img src="/Design/Início - Gerente.png" alt="Tela de Início - Gerente"/> |
+ Início | Configurações
+ -------|--------------
+ <img src="/Design/Início - Gerente.png" alt="Tela de Início - Gerente"/> | <img src="/Design/Configurações - Gerente.png" alt="Tela de Configurações do Gerente" />
+ 
  
  Relatórios |
  -----------|
