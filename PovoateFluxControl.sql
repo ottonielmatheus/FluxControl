@@ -11,7 +11,11 @@ INSERT INTO UserTypes
 VALUES ('Administrador');
 
 INSERT INTO Users 
-VALUES ('Ottoniel Matheus', 100419, 'ottonielrp2008@gmail.com', '123456', 3);
+VALUES ('Ottoniel Matheus', 100419, 'ottonielrp2008@gmail.com', '123456', 3),
+('Caio Santanna', 101419, 'caiorsantanna@gmail.com', '123456', 2),
+('Gabriel Borges', 102419, 'borges@gmail.com', '123456', 3);
+
+select * from Users
 
 INSERT INTO Companies
 VALUES ('Itamarati', '/url/image1.png', 30)

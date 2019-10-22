@@ -152,7 +152,7 @@ Início  |
 
 Detalhes | Modal Ocorrência
 ---------|-----------------
-<img src="/Design/Detalhes - Operador.png" alt="Detalhes da Tela - Operador"/> | <img src="/Design/Detalhes - Operador.png" alt="Detalhes da Tela - Operador"/>
+<img src="/Design/Detalhes - Operador.png" alt="Detalhes da Tela - Operador"/> | <img src="/Design/Modal%20Ocorr%C3%AAncia%20-%20Operador.png" alt="Detalhes da Tela - Operador"/>
 
 ### Gerente:
 
