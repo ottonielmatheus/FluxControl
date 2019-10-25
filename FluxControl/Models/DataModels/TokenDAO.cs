@@ -23,10 +23,9 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Parameters.AddWithValue("@Expires", model.Expires);
             cmd.Parameters.AddWithValue("@UserId", model.User.Id);
 
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
-                return reader.GetInt32(0);
+            using (var reader = cmd.ExecuteReader())
+                if (reader.Read())
+                    return reader.GetInt32(0);
 
             return 0;
         }

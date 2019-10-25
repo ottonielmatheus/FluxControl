@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmurbBUSControl.Controllers
 {
-    [Route("API/{controller}/")]
+    [Route("API/[controller]/")]
     public class CompanyController : Controller
     {
         [HttpPost]

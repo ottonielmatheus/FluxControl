@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EmurbBUSControl.Models.DataModels
 {
-    public class FlowRecordDAO : Database //, ICrudDAO<FlowRecord>
+    public class FlowRecordDAO : Database
     {
-        public bool Add(string licensePlate)
+        public bool Register(string licensePlate)
         {
             Bus busRegistered = null;
 
@@ -21,7 +21,9 @@ namespace EmurbBUSControl.Models.DataModels
                 (
                     new FlowRecord()
                     {
-                        
+                        RegistryClerk = 
+                        BusRegistered = busRegistered.Id,
+
                     }
                 );
             
@@ -29,7 +31,7 @@ namespace EmurbBUSControl.Models.DataModels
             return false;
         }
 
-        public bool Add(int busNumber)
+        public int Register(int busNumber)
         {
             Bus busRegistered = null;
 
@@ -51,7 +53,7 @@ namespace EmurbBUSControl.Models.DataModels
 
         #region CRUD
 
-        public bool Add(FlowRecord model)
+        public int Add(FlowRecord model)
         {
             SqlCommand cmd = new SqlCommand();
 

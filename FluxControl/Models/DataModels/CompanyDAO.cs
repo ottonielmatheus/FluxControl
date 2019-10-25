@@ -24,10 +24,9 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Parameters.AddWithValue("@Thumbnail", model.Thumbnail);
             cmd.Parameters.AddWithValue("@InvoiceInterval", model.InvoiceInterval);
 
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
-                return reader.GetInt32(0);
+            using (var reader = cmd.ExecuteReader())
+                if (reader.Read())
+                    return reader.GetInt32(0);
 
             return 0;
         }
@@ -107,7 +106,7 @@ namespace EmurbBUSControl.Models.DataModels
         public List<Company> Load()
         {
             var cmd = new SqlCommand();
-            List<Company> models = new List<Company>();
+            var models = new List<Company>();
 
             cmd.Connection = connection;
             cmd.CommandText = @"SELECT company.*, bus.Id Bus_Id, bus.Number, bus.LicensePlate, bus.Company_Id

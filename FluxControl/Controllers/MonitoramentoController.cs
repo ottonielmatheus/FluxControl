@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EmurbBUSControl.Controllers
 {
-    [Route("{controller}/")]
+    [Route("[controller]/")]
     public class MonitoramentoController : Controller
     {
         public MonitoramentoController(IHubContext<HistoricHub> hub)

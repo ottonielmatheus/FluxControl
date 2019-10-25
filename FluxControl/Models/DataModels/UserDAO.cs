@@ -23,10 +23,9 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Parameters.AddWithValue("@Email", model.Email);
             cmd.Parameters.AddWithValue("@Type", model.Type);
 
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            if(reader.Read())
-                return reader.GetInt32(0);
+            using (var reader = cmd.ExecuteReader())
+                if (reader.Read())
+                    return reader.GetInt32(0);
 
             return 0;
 
@@ -119,7 +118,8 @@ namespace EmurbBUSControl.Models.DataModels
             var cmd = new SqlCommand();
 
             cmd.Connection = connection;
-            cmd.CommandText = "DELETE FROM Users WHERE Id = @Id";
+            cmd.CommandText = @"DELETE FROM Tokens WHERE User_Id = @Id
+                                DELETE FROM Users WHERE Id = @Id";
 
             cmd.Parameters.AddWithValue("@Id", id);
 

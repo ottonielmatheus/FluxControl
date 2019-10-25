@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmurbBUSControl.Models.DataModels
 {
-    public class BusDAO : Database//, ICrudDAO<Bus>
+    public class BusDAO : Database, ICrudDAO<Bus>
     {
 
         public Bus Get(string identifier)
@@ -17,44 +17,132 @@ namespace EmurbBUSControl.Models.DataModels
             cmd.Connection = connection;
 
             cmd.CommandText = @"SELECT * FROM FlowRecords 
-                                WHERE LicensePlate = OR Number = ";
+                                WHERE LicensePlate = @Identifier OR Number = @Identifier";
 
-            SqlDataReader reader = cmd.ExecuteReader();
 
-            if (reader.Read())
-                return new Bus()
-                {
+            cmd.Parameters.AddWithValue("@Identifier", identifier);
 
-                };
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                    return new Bus()
+                    {
+                        Id = (int)reader["Id"],
+                        Number = (int)reader["Number"],
+                        LicensePlate = (string)reader["LicensePlate"],
+                        BusCompany = (int)reader["Company_Id"]
+                    };
+            }
 
             return null;
         }
 
         #region CRUD
 
-        public bool Add(Bus model)
+        public int Add(Bus model)
         {
-            throw new NotImplementedException();
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.Connection = connection;
+
+            cmd.CommandText = @"INSERT INTO Buses 
+                                VALUES (@Number, @LicensePlate, @CompanyId)
+                                SELECT CAST(@@IDENTITY AS INT)";
+
+
+            cmd.Parameters.AddWithValue("@Number", model.Number);
+            cmd.Parameters.AddWithValue("@LicensePlate", model.LicensePlate);
+            cmd.Parameters.AddWithValue("@CompanyId", model.BusCompany);
+
+            using (var reader = cmd.ExecuteReader())
+                if(reader.Read())
+                    return reader.GetInt32(0);
+
+            return 0;
         }
 
         public bool Change(int id, Bus model)
         {
-            throw new NotImplementedException();
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.Connection = connection;
+
+            cmd.CommandText = @"UPDATE Buses 
+                                SET Number = @Number, 
+                                LicensePlate = @LicensePlate,
+                                Company_Id = @CompanyId";
+
+            cmd.Parameters.AddWithValue("@Number", model.Number);
+            cmd.Parameters.AddWithValue("@LicensePlate", model.LicensePlate);
+            cmd.Parameters.AddWithValue("@CompanyId", model.BusCompany);
+
+            return cmd.ExecuteNonQuery() > 0;
         }
 
         public Bus Get(int id)
         {
-            throw new NotImplementedException();
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.Connection = connection;
+
+            cmd.CommandText = @"SELECT * FROM FlowRecords 
+                                WHERE Id = @Id";
+
+
+            cmd.Parameters.AddWithValue("@Id", id);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                    return new Bus()
+                    {
+                        Id = (int)reader["Id"],
+                        Number = (int)reader["Number"],
+                        LicensePlate = (string)reader["LicensePlate"],
+                        BusCompany = (int)reader["Company_Id"]
+                    };
+            }
+                
+            return null;
         }
 
         public List<Bus> Load()
         {
-            throw new NotImplementedException();
+            var cmd = new SqlCommand();
+            var models = new List<Bus>();
+
+            cmd.Connection = connection;
+            cmd.CommandText = @"SELECT * FROM Buses";
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                    models.Add(
+                    new Bus()
+                    {
+                        Id = (int)reader["Id"],
+                        Number = (int)reader["Number"],
+                        LicensePlate = (string)reader["LicensePlate"],
+                        BusCompany = (int)reader["Company_Id"]
+                    });
+            }
+
+            return models;
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.Connection = connection;
+
+            cmd.CommandText = @"REMOVE FROM Buses
+                                WHERE Id = @Id";
+
+
+            cmd.Parameters.AddWithValue("@Id", id);
+
+            return cmd.ExecuteNonQuery() > 0;
         }
 
         #endregion

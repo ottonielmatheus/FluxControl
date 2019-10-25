@@ -82,7 +82,7 @@ namespace EmurbBUSControl.Controllers
         }
 
         [HttpPatch]
-        [Route("Change/")]
+        [Route("Change/{id}")]
         public ActionResult Change(int id, [FromBody] User user)
         {
             try

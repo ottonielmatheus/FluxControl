@@ -72,7 +72,6 @@ namespace ArduinoCommunication.Models
             catch(Exception ex)
             {
                 Close();
-                Start();
 
                 throw ex;
             }
