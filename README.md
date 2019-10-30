@@ -21,6 +21,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   ###### URI: "/API/User/Add"
 
   #### Request:
+  ##### Body:
   ```javascript 
       {
         Name: "Nome Exemplo",
@@ -42,6 +43,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   ###### URI: "/API/User/Get/{id}"
 
   #### Request:
+  ##### Query:
   ```javascript
       "/API/User/Get/10" // URI + id do usuário
   ````
@@ -56,6 +58,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   ###### URI: "/API/User/Load"
 
   #### Request:
+  ##### Query:
   ```javascript
       "/API/User/Load" // URI
   ````
@@ -71,6 +74,12 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   ###### URI: "/API/User/Change/{id}"
 
   #### Request:
+  ##### Query:
+  ```javascript
+      "/API/User/Change/123" // URI + userId
+  ````
+  
+  ##### Body:
   ```javascript
       {
         Name: "Nome Exemplo Atualizado",
@@ -92,6 +101,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   ###### URI: "/API/User/GetToken"
 
   #### Request:
+  ##### Query:
   ```javascript
   "abc23-1234-abcf-1234" // token
   ````
@@ -108,9 +118,11 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   ###### URI: "/API/User/DefinePassword/{token}"
 
   #### Request:
+  ##### Query:
   ```javascript
       "/API/User/DefinePassword/abc23-1234-abcf-1234" // URI + token
   ````
+  ##### Body:
   ```javascript
       "senha12345" // senha
   ````
@@ -125,7 +137,13 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
 * ##### [DELETE] Remove
   ###### URI: "/API/User/Remove/{id}"
-
+  
+  #### Request:
+  ##### Query:
+  ```javascript
+      "/API/User/Remove/123" // URI + userId
+  ````
+  
   #### Responses:
 
   Código | Retorno 
