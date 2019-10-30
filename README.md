@@ -12,6 +12,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
 
 #### Links Utéis:
 * [Serviço de Email](https://app-smtp.sendinblue.com/log/#151144f3-9b77-4dfb-aed6-954ed2a1ad7b)
+* [Plate Recognition API](https://www.openalpr.com/cloud-api.html?gclid=EAIaIQobChMIk5Td7qrE5QIViYSRCh0Z7AJDEAAYASABEgLCoPD_BwE)
 
 ## API's:
 
@@ -63,11 +64,11 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   
   Código | Retorno | Retorno 2 |
   :-------:|-------|-----------|
-  200 | [{ User }, ...] | [] |
+  200 | [{ User }, ...] | [ ] |
   500 | Falha ao carregar usuários | |
   
 * ##### [PATCH] Change
-  ###### URI: "/API/User/Change"
+  ###### URI: "/API/User/Change/{id}"
 
   #### Request:
   ```javascript
@@ -123,12 +124,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   500 | Falha ao definir senha
 
 * ##### [DELETE] Remove
-  ###### URI: "/API/User/Remove"
-
-  #### Request:
-  ```javascript
-      "10" // id do usuário
-  ````
+  ###### URI: "/API/User/Remove/{id}"
 
   #### Responses:
 
