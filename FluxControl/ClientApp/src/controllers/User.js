@@ -3,7 +3,7 @@
 export class UserController {
   async Load() {
     try {
-      const response = await axios.get('/API/User/Load');
+        const response = await axios.get('https://localhost:44322/API/User/Load');
 
       if (response.status === 200) {
         return response.data;

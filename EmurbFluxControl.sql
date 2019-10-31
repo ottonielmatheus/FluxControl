@@ -88,7 +88,7 @@ CREATE TABLE Tokens
 	Hash		VARCHAR(MAX)	NOT NULL,
 	Expires		DATETIME		NOT NULL,
 
-	"User_Id"	INT				NOT NULL				REFERENCES Users,
+	"User_Id"	INT				NOT NULL	UNIQUE		REFERENCES Users,
 				
 );
 GO

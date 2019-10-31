@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using FluxControl.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace FluxControl
 {
@@ -44,16 +44,6 @@ namespace FluxControl
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
-      else
-      {
-        app.UseExceptionHandler("/Error");
-        app.UseHsts();
-      }
-
       app.UseHttpsRedirection();
       app.UseStaticFiles();
       app.UseSpaStaticFiles();
@@ -66,11 +56,6 @@ namespace FluxControl
                   template: "{controller}/{action=Index}/{id?}");
       });
 
-      app.UseSignalR(routes =>
-      {
-        routes.MapHub<HistoricHub>("/historicHub");
-      });
-
       app.UseSpa(spa =>
       {
         spa.Options.SourcePath = "ClientApp";
@@ -80,6 +65,7 @@ namespace FluxControl
           spa.UseReactDevelopmentServer(npmScript: "start");
         }
       });
+
     }
   }
 }
