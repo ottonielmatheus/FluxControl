@@ -214,6 +214,7 @@ namespace FluxControlAPI.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("DefinePassword/{token}")]
         public ActionResult SetPassword(string token, [FromBody] string password)
