@@ -47,6 +47,7 @@ namespace FluxControlAPI.Controllers
                     );
 
                     var handler = new JwtSecurityTokenHandler();
+
                     var securityToken = handler.CreateToken(
                         new SecurityTokenDescriptor
                         {
@@ -60,7 +61,7 @@ namespace FluxControlAPI.Controllers
 
                     var token = handler.WriteToken(securityToken);
 
-                    return StatusCode(200, new {AccessToken = token, Message = "OK"});
+                    return StatusCode(200, new {AccessToken = token, User = validUser, Message = "OK"});
                 }
 
             }
