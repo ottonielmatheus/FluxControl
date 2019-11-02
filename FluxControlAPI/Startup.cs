@@ -42,7 +42,9 @@ namespace FluxControlAPI
             {
                 authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(bearerOptions =>
+            })
+
+            .AddJwtBearer(bearerOptions =>
             {
                 var paramsValidation = bearerOptions.TokenValidationParameters;
                 paramsValidation.IssuerSigningKey = signingConfigurations.Key;
@@ -80,6 +82,7 @@ namespace FluxControlAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors();
             app.UseMvc();
         }
     }
