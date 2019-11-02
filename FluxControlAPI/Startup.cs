@@ -72,6 +72,17 @@ namespace FluxControlAPI
                     .RequireAuthenticatedUser().Build());
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", policyBuilder =>
+                {
+                    policyBuilder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+
             services.AddMvc();
         }
 
@@ -82,7 +93,7 @@ namespace FluxControlAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors();
+            app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
     }
