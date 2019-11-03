@@ -14,17 +14,18 @@ using Microsoft.Extensions.Configuration;
 using FluxControlAPI.Models.Security;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FluxControlAPI.Controllers
+namespace FluxControlAPI.Endpoints
 {
-    [Authorize("Bearer")]
+
     [ApiController]
-    [Route("API/[controller]/")]
+    [Authorize("Bearer")]
+    [Route("API/[controller]")]
     public class UserController : ControllerBase
     {
 
-        [AllowAnonymous]
         [HttpPost]
-        [Route("Login/")]
+        [AllowAnonymous]
+        [Route("/Login")]
         public ActionResult Login(
             [FromBody] User user, 
             [FromServices] SigningConfigurations signingConfigurations, [FromServices]TokenConfigurations tokenConfigurations)
@@ -70,7 +71,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Add/")]
+        [Route("/Add")]
         public ActionResult Add([FromBody] User user)
         {
             try
@@ -112,7 +113,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Get/{id}")]
+        [Route("/Get/{id}")]
         public ActionResult Get(int id)
         {
             try
@@ -129,7 +130,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Load/")]
+        [Route("/Load")]
         public ActionResult Load()
         {
             try
@@ -145,7 +146,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpPatch]
-        [Route("Change/{id}")]
+        [Route("/Change/{id}")]
         public ActionResult Change(int id, [FromBody] User user)
         {
             try
@@ -164,7 +165,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpPost]
-        [Route("NewPassword/")]
+        [Route("/NewPassword")]
         public ActionResult RequestPassword([FromBody] int id)
         {
             try
@@ -196,7 +197,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpPost]
-        [Route("GetToken/")]
+        [Route("/GetToken")]
         public ActionResult GetToken([FromBody] string token)
         {
             try
@@ -217,7 +218,7 @@ namespace FluxControlAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("DefinePassword/{token}")]
+        [Route("/DefinePassword/{token}")]
         public ActionResult SetPassword(string token, [FromBody] string password)
         {
             try
@@ -246,7 +247,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("Remove/{id}")]
+        [Route("/Remove/{id}")]
         public ActionResult Remove(int id)
         {
             try

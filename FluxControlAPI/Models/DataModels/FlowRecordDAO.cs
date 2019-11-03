@@ -10,7 +10,7 @@ namespace FluxControlAPI.Models.DataModels
 {
     public class FlowRecordDAO : Database
     {
-        static User system = new User()
+        static readonly User System = new User()
         {
             Name = "Sistema",
             Registration = 0,
@@ -36,7 +36,7 @@ namespace FluxControlAPI.Models.DataModels
                 {
                     var register = new FlowRecord()
                     {
-                        RegistryClerk = user ?? system,
+                        RegistryClerk = user ?? System,
                         BusRegistered = busRegistered
                     };
 

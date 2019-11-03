@@ -94,20 +94,7 @@ namespace ArduinoCommunication.Models
 
             if (communicationStatus != null)
             {
-                if (communicationStatus.Data != null)
-                {
-                    List<string> bufferBytesString = communicationStatus.Data.Split(",").ToList();
-
-                    byte[] bufferBytes = bufferBytesString.Cast<byte>().ToArray();
-
-                    Task<string> recognizeTask = Task.Run(() => OpenALPR.ProcessImage(bufferBytes));
-                    recognizeTask.Wait();
-
-                    string response = recognizeTask.Result;
-
-                    // Printa resultado
-                    SystemNotifier.SendNotificationAsync(response);
-                }
+                // vazio
 
             }
 
