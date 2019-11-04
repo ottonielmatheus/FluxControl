@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FluxControlAPI.Endpoints
+namespace FluxControlAPI.Controllers
 {
     
     [ApiController]
@@ -19,7 +19,8 @@ namespace FluxControlAPI.Endpoints
         #region CRUD
 
         [HttpPost]
-        [Route("/Add")]
+        [Authorize(Roles = "Manager, Administrator")]
+        [Route("Add")]
         public ActionResult Add([FromBody] Bus bus)
         {
             try
@@ -40,7 +41,8 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpGet]
-        [Route("/Get/{id}")]
+        [Authorize(Roles = "Operator, Manager, Administrator")]
+        [Route("Get/{id}")]
         public ActionResult Get(int id)
         {
             try
@@ -57,7 +59,8 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpGet]
-        [Route("/Load")]
+        [Authorize(Roles = "Operator, Manager, Administrator")]
+        [Route("Load")]
         public ActionResult Load()
         {
             try
@@ -73,7 +76,8 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpPatch]
-        [Route("/Change/{id}")]
+        [Authorize(Roles = "Manager, Administrator")]
+        [Route("Change/{id}")]
         public ActionResult Change(int id, [FromBody] Bus bus)
         {
             using (var busDAO = new BusDAO())
@@ -84,7 +88,8 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpDelete]
-        [Route("/Remove/{id}")]
+        [Authorize(Roles = "Manager, Administrator")]
+        [Route("Remove/{id}")]
         public ActionResult Remove(int id)
         {
             try

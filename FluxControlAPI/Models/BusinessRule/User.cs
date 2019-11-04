@@ -7,11 +7,11 @@ namespace FluxControlAPI.Models.DataModels.BusinessRule
 {
     public enum UserType
     {
-        Transparency = 0,
-        Operator = 1,
-        Manager = 2,
-        Adminstrator = 3,
-        System = 4
+        System = 0,
+        Transparency = 1,
+        Operator = 2,
+        Manager = 3,
+        Administrator = 4
     }
 
     public class User

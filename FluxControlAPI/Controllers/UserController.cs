@@ -14,18 +14,18 @@ using Microsoft.Extensions.Configuration;
 using FluxControlAPI.Models.Security;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FluxControlAPI.Endpoints
+namespace FluxControlAPI.Controllers
 {
 
     [ApiController]
-    [Authorize("Bearer")]
+    [Authorize("Bearer", Roles = "Manager, Administrator")]
     [Route("API/[controller]")]
     public class UserController : ControllerBase
     {
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("/Login")]
+        [Route("Login")]
         public ActionResult Login(
             [FromBody] User user, 
             [FromServices] SigningConfigurations signingConfigurations, [FromServices]TokenConfigurations tokenConfigurations)
@@ -39,11 +39,13 @@ namespace FluxControlAPI.Endpoints
 
                 if (validUser != null)
                 {
-                    ClaimsIdentity identity = new ClaimsIdentity(
+                    ClaimsIdentity identity = new ClaimsIdentity
+                    (
                         new GenericIdentity(validUser.Registration.ToString(), "Login"),
-                        new[] {
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                        new Claim(JwtRegisteredClaimNames.UniqueName, validUser.Registration.ToString())
+                        new [] {
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                            new Claim("id", validUser.Id.ToString()),
+                            new Claim("role", validUser.Type.ToString())
                         }
                     );
 
@@ -71,7 +73,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpPost]
-        [Route("/Add")]
+        [Route("Add")]
         public ActionResult Add([FromBody] User user)
         {
             try
@@ -113,7 +115,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpGet]
-        [Route("/Get/{id}")]
+        [Route("Get/{id}")]
         public ActionResult Get(int id)
         {
             try
@@ -130,7 +132,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpGet]
-        [Route("/Load")]
+        [Route("Load")]
         public ActionResult Load()
         {
             try
@@ -146,7 +148,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpPatch]
-        [Route("/Change/{id}")]
+        [Route("Change/{id}")]
         public ActionResult Change(int id, [FromBody] User user)
         {
             try
@@ -165,7 +167,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpPost]
-        [Route("/NewPassword")]
+        [Route("NewPassword")]
         public ActionResult RequestPassword([FromBody] int id)
         {
             try
@@ -197,7 +199,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpPost]
-        [Route("/GetToken")]
+        [Route("GetToken")]
         public ActionResult GetToken([FromBody] string token)
         {
             try
@@ -218,7 +220,7 @@ namespace FluxControlAPI.Endpoints
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("/DefinePassword/{token}")]
+        [Route("DefinePassword/{token}")]
         public ActionResult SetPassword(string token, [FromBody] string password)
         {
             try
@@ -247,7 +249,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpDelete]
-        [Route("/Remove/{id}")]
+        [Route("Remove/{id}")]
         public ActionResult Remove(int id)
         {
             try

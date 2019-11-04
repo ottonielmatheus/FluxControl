@@ -10,16 +10,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FluxControlAPI.Endpoints
+namespace FluxControlAPI.Controllers
 {
     
     [ApiController]
-    // [Authorize("Bearer")]
+    // [Authorize("Bearer", Roles = "Operator")]
     [Route("API/[controller]")]
     public class FlowRecordController : ControllerBase
     {
         [HttpPost]
-        [Route("/ProcessImageBytes")]
+        [Route("ProcessImageBytes")]
         public ActionResult ProcessImageBytes([FromBody] string stringBytes)
         {
             try
@@ -54,15 +54,15 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpPost]
-        [Route("/Record")]
-        public ActionResult Record(int busNumber, int userId)
+        [Route("Record")]
+        public ActionResult Record(int busNumber)
         {
             try
             {
                 User user = null;
 
                 using (var userDAO = new UserDAO())
-                    user = userDAO.Get(userId);
+                    user = userDAO.Get(Convert.ToInt32(User.FindFirst("id").Value));
 
                 if (user != null)
                 {

@@ -10,13 +10,6 @@ namespace FluxControlAPI.Models.DataModels
 {
     public class FlowRecordDAO : Database
     {
-        static readonly User System = new User()
-        {
-            Name = "Sistema",
-            Registration = 0,
-            Email = "emurb.sistema@gmail.com",
-            Type = UserType.System
-        };
 
         /// <summary>
         /// Faz um novo registro de fluxo no sistema por Placa ou Número do Ônibus.
@@ -36,7 +29,7 @@ namespace FluxControlAPI.Models.DataModels
                 {
                     var register = new FlowRecord()
                     {
-                        RegistryClerk = user ?? System,
+                        RegistryClerk = user,
                         BusRegistered = busRegistered
                     };
 

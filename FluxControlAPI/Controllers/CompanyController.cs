@@ -7,15 +7,15 @@ using FluxControlAPI.Models.DataModels.BusinessRule;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FluxControlAPI.Endpoints
+namespace FluxControlAPI.Controllers
 {
     [ApiController]
-    [Authorize("Bearer")]
+    [Authorize("Bearer", Roles = "Manager, Administrator")]
     [Route("API/[controller]")]
     public class CompanyController : ControllerBase
     {
         [HttpPost]
-        [Route("/Add")]
+        [Route("Add")]
         public ActionResult Add([FromBody] Company company)
         {
             try
@@ -36,7 +36,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpGet]
-        [Route("/Get/{id}")]
+        [Route("Get/{id}")]
         public ActionResult Get(int id)
         {
             try
@@ -53,7 +53,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpGet]
-        [Route("/Load")]
+        [Route("Load")]
         public ActionResult Load()
         {
             try
@@ -69,7 +69,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpPatch]
-        [Route("/Change/{id}")]
+        [Route("Change/{id}")]
         public ActionResult Change(int id, [FromBody] Company company)
         {
             using (var companyDAO = new CompanyDAO())
@@ -80,7 +80,7 @@ namespace FluxControlAPI.Endpoints
         }
 
         [HttpDelete]
-        [Route("/Remove/{id}")]
+        [Route("Remove/{id}")]
         public ActionResult Remove(int id)
         {
             try

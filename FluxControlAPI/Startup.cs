@@ -93,6 +93,7 @@ namespace FluxControlAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
