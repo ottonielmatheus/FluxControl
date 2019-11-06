@@ -200,8 +200,8 @@ namespace FluxControlAPI.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("GetToken")]
-        public ActionResult GetToken([FromBody] string token)
+        [Route("GetToken/{token}")]
+        public ActionResult GetToken(string token)
         {
             try
             {
