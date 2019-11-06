@@ -199,6 +199,7 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("GetToken")]
         public ActionResult GetToken([FromBody] string token)
         {
@@ -218,8 +219,8 @@ namespace FluxControlAPI.Controllers
 
         }
 
-        [AllowAnonymous]
         [HttpPost]
+        [AllowAnonymous]
         [Route("DefinePassword/{token}")]
         public ActionResult SetPassword(string token, [FromBody] string password)
         {
