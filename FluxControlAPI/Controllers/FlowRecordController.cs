@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FluxControlAPI.Models;
-using FluxControlAPI.Models.APIs;
+using FluxControlAPI.Models.APIs.OpenALPR;
+using FluxControlAPI.Models.APIs.OpenALPR.Models;
 using FluxControlAPI.Models.DataModels;
 using FluxControlAPI.Models.DataModels.BusinessRule;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace FluxControlAPI.Controllers
 {
@@ -20,24 +23,40 @@ namespace FluxControlAPI.Controllers
     {
         [HttpPost]
         [Route("ProcessImageBytes")]
-        public ActionResult ProcessImageBytes([FromBody] string stringBytes)
+        public ActionResult ProcessImageBytes()
         {
             try
             {
-                if (!String.IsNullOrEmpty(stringBytes))
+                var picture = Request.Body;
+                var pictureSize = (int) Request.ContentLength;
+                
+                if (picture != null || picture.Length > 0)
                 {
-                    byte[] bufferBytes = stringBytes.Split(",").Select(bs => Convert.ToByte(bs)).ToArray();
+                    using (MemoryStream targetStream = new MemoryStream())
+                    {
+                        Stream sourceStream = picture;
+                        
+                        byte[] buffer = new byte[pictureSize + 1];
+                        int read = 0;
 
-                    Task<string> recognizeTask = Task.Run(() => OpenALPR.ProcessImage(bufferBytes));
-                    recognizeTask.Wait();
+                        while ((read = sourceStream.Read(buffer, 0, buffer.Length)) > 0)
+                            targetStream.Write(buffer, 0, read);
 
-                    string response = recognizeTask.Result;
+                        Task<string> recognizeTask = Task.Run(() => OpenALPR.ProcessImage(buffer));
+                        recognizeTask.Wait();
 
-                    using (var recordFlowDAO = new FlowRecordDAO())
-                        recordFlowDAO.Register(response, null);
+                        var response = JsonConvert.DeserializeObject<OpenALPRResponse>(recognizeTask.Result);
 
-                    // Printa resultado
-                    SystemNotifier.SendNotificationAsync(response);
+                        if (!response.error_code.Equals("400"))
+                            response.error = "kk";
+
+                        using (var recordFlowDAO = new FlowRecordDAO())
+                            recordFlowDAO.Register("XUMBADO ATENÇÃO", null);
+
+                            // Printa resultado
+                            //SystemNotifier.SendNotificationAsync(response);
+                            
+                    }
 
                     return StatusCode(200);
                 }

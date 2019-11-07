@@ -70,10 +70,7 @@ namespace FluxControlAPI.Models.DataModels
                 }
 
             if (token != null && token.Expires < DateTime.Now)
-            {
                 this.Remove(token.Code);
-                throw new Exception("Token expirado");
-            }
 
             return token;
         }

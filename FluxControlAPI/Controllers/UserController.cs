@@ -73,6 +73,91 @@ namespace FluxControlAPI.Controllers
         }
 
         [HttpPost]
+        [Route("NewPassword")]
+        public ActionResult RequestPassword([FromBody] int id)
+        {
+            try
+            {
+                User user = null;
+
+                using (var userDAO = new UserDAO())
+                    user = userDAO.Get(id);
+
+                Token token = new Token(user);
+                var emurbMail = new SystemMail();
+
+                if (user != null && emurbMail.SendNewPasswordMail(Request, token))
+                {
+                    using (var tokenDAO = new TokenDAO())
+                        tokenDAO.Add(token);
+
+                    return StatusCode(200, new { Message = "Enviado" });
+                }
+
+                return StatusCode(424, new { Message = "Erro ao gerar Token" });
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Houve um erro ao enviar o token para o email deste usuário" });
+            }
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("CheckToken/{token}")]
+        public ActionResult GetToken(string token)
+        {
+            try
+            {
+                Token validToken;
+
+                using (var tokenDAO = new TokenDAO())
+                    validToken = tokenDAO.GetByHash(token);
+
+                return (validToken != null) ? StatusCode(200, validToken) : StatusCode(406, new { Message = "Token inválido" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Falha ao obter token" });
+            }
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("DefinePassword/{token}")]
+        public ActionResult SetPassword(string token, [FromBody] string password)
+        {
+            try
+            {
+                using (var tokenDAO = new TokenDAO())
+                {
+                    var validToken = tokenDAO.GetByHash(token);
+
+                    if (validToken != null && !string.IsNullOrEmpty(password))
+                    {
+                        using (var userDAO = new UserDAO())
+                            if (userDAO.SetPassword(validToken.User.Id, password))
+                                tokenDAO.Remove(validToken.Code);
+
+                        return StatusCode(202, new { Message = "Senha definida" });
+                    }
+
+                    return StatusCode(406, new { Message = "Token inválido" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Falha ao definir senha" });
+            }
+
+        }
+
+        #region CRUD
+
+        [HttpPost]
         [Route("Add")]
         public ActionResult Add([FromBody] User user)
         {
@@ -166,89 +251,6 @@ namespace FluxControlAPI.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("NewPassword")]
-        public ActionResult RequestPassword([FromBody] int id)
-        {
-            try
-            {
-                User user = null;
-                
-                using (var userDAO = new UserDAO())
-                    user = userDAO.Get(id);
-
-                Token token = new Token(user);
-                var emurbMail = new SystemMail();
-
-                if (user != null && emurbMail.SendNewPasswordMail(Request, token))
-                {
-                    using (var tokenDAO = new TokenDAO())
-                        tokenDAO.Add(token);
-
-                    return StatusCode(200, new { Message = "Enviado" });
-                }
-
-                return StatusCode(424, new { Message = "Erro ao gerar Token" });
-            }
-            
-            catch(Exception ex)
-            {
-                return StatusCode(500, new { Message = "Houve um erro ao enviar o token para o email deste usuário" });
-            }
-
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("GetToken/{token}")]
-        public ActionResult GetToken(string token)
-        {
-            try
-            {
-                Token validToken;
-
-                using (var tokenDAO = new TokenDAO())
-                    validToken = tokenDAO.GetByHash(token);
-
-                return (validToken != null) ? StatusCode(200, validToken) : StatusCode(406, new { Message = "Token inválido" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "Falha ao obter token" });
-            }
-
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("DefinePassword/{token}")]
-        public ActionResult SetPassword(string token, [FromBody] string password)
-        {
-            try
-            {
-                using (var tokenDAO = new TokenDAO())
-                {
-                    var validToken = tokenDAO.GetByHash(token);
-
-                    if (validToken != null && !string.IsNullOrEmpty(password))
-                    {
-                        using (var userDAO = new UserDAO())
-                            if (userDAO.SetPassword(validToken.User.Id, password))
-                                tokenDAO.Remove(validToken.Code);
-                        
-                        return StatusCode(202, new { Message = "Senha definida" });
-                    }
-
-                    return StatusCode(406, new { Message = "Token inválido" });
-                }
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, new { Message = "Falha ao definir senha" });
-            }
-                
-        }
-
         [HttpDelete]
         [Route("Remove/{id}")]
         public ActionResult Remove(int id)
@@ -267,5 +269,7 @@ namespace FluxControlAPI.Controllers
                 return StatusCode(500, new { Message = "Falha ao remover" });
             }
         }
+
+        #endregion
     }
 }

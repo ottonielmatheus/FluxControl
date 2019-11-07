@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.IO;
 
-namespace FluxControlAPI.Models.APIs
+namespace FluxControlAPI.Models.APIs.OpenALPR
 {
     class OpenALPR
     {
