@@ -97,7 +97,7 @@ Este protótipo fara uso de uma placa Arduino e do componente ESP32-CAM para obt
   304 | Não alterado
   500 | Falha ao alterar usuário
 
-* ##### [POST] GetToken
+* ##### [POST] CheckToken
   ###### URI: "/API/User/CheckToken"
 
   #### Request:
